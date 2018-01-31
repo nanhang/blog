@@ -45,7 +45,8 @@
 		));
 		background-color: _palette(bg-alt);
 		font-size: 0.9em;
-		position: relative;
+        position: relative;
+        height: 100%;
 		width: _size(sidebar-width);
 
 		h2 {
