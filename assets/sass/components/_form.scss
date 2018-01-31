@@ -1,9 +1,5 @@
-@import '../libs/vars';
-@import '../libs/functions';
-@import '../libs/mixins';
-
 ///
-/// Identity by HTML5 UP
+/// Editorial by HTML5 UP
 /// html5up.net | @ajlkn
 /// Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 ///
@@ -12,20 +8,13 @@
 
 	form {
 		margin: 0 0 _size(element-margin) 0;
-
-		> .field {
-			margin: 0 0 _size(element-margin) 0;
-
-			> :last-child {
-				margin-bottom: 0;
-			}
-		}
 	}
 
 	label {
 		color: _palette(fg-bold);
 		display: block;
 		font-size: 0.9em;
+		font-weight: _font(weight-bold);
 		margin: 0 0 (_size(element-margin) * 0.5) 0;
 	}
 
@@ -33,10 +22,14 @@
 	input[type="password"],
 	input[type="email"],
 	input[type="tel"],
+	input[type="search"],
+	input[type="url"],
 	select,
 	textarea {
 		@include vendor('appearance', 'none');
+		background: _palette(bg);
 		border-radius: _size(border-radius);
+		border: none;
 		border: solid 1px _palette(border);
 		color: inherit;
 		display: block;
@@ -50,17 +43,19 @@
 		}
 
 		&:focus {
-			border-color: _palette(highlight);
+			border-color: _palette(accent);
+			box-shadow: 0 0 0 1px _palette(accent);
 		}
 	}
 
 	.select-wrapper {
-		@include icon('\f078');
+		@include icon;
 		display: block;
 		position: relative;
 
 		&:before {
 			color: _palette(border);
+			content: '\f078';
 			display: block;
 			height: _size(element-height);
 			line-height: _size(element-height);
@@ -80,6 +75,9 @@
 	input[type="text"],
 	input[type="password"],
 	input[type="email"],
+	input[type="tel"],
+	input[type="search"],
+	input[type="url"],
 	select {
 		height: _size(element-height);
 	}
@@ -110,7 +108,7 @@
 			position: relative;
 
 			&:before {
-				background: _palette(border-bg);
+				background: _palette(bg);
 				border-radius: _size(border-radius);
 				border: solid 1px _palette(border);
 				content: '';
@@ -120,21 +118,24 @@
 				line-height: (_size(element-height) * 0.575);
 				position: absolute;
 				text-align: center;
-				top: 0.15em;
+				top: 0;
 				width: (_size(element-height) * 0.6);
 			}
 		}
 
 		&:checked + label {
 			&:before {
-				color: _palette(highlight);
+				background: _palette(fg-bold);
+				border-color: _palette(fg-bold);
+				color: _palette(bg);
 				content: '\f00c';
 			}
 		}
 
 		&:focus + label {
 			&:before {
-				border-color: _palette(highlight);
+				border-color: _palette(accent);
+				box-shadow: 0 0 0 1px _palette(accent);
 			}
 		}
 	}
