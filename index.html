@@ -11,11 +11,7 @@
         <link rel="stylesheet" href="assets/css/main.css" />
         <script>
             window.onload = function () {
-                //用jQuery获取模板
-                $('#sidebar').load('app/leftSide.html');
-                $('#main').load('app/main.html');
-
-                window.onhashchange = function() {
+                function loadPage() {
                     let currentHash = window.location.hash;
                     let hashComponentArr = [];
                     let hashComponent = '';
@@ -33,9 +29,7 @@
 
                     // 根据hash值加载不同的页面
                     $('#main').load(pageUrl);
-
                 }
-
                 // 解析链接参数
                 function parseQueryString(currentUrl) {                      //解析链接参数
                     let str = currentUrl.split("?")[1];                     //提取链接上的参数信息
@@ -52,6 +46,12 @@
                     }  
                     return res;       //返还数值
                 }
+                //用jQuery获取模板
+                $('#sidebar').load('app/leftSide.html');
+                loadPage();
+                window.onhashchange = loadPage;
+
+
             }
         </script>
 	</head>
