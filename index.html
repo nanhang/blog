@@ -11,7 +11,7 @@
             window.onload = function () {
                 //用jQuery获取模板
                 $('#sidebar').load('app/leftSide.html');
-                $('#main').load('app/main.html');
+                $('#main').load('app/index.html');
 
                 window.onhashchange = function() {
                     let currentHash = window.location.hash;
@@ -23,8 +23,8 @@
                     window.location.hash = hashStr; // 调整地址栏的地址，使得浏览器里边的“前进”、“后退”按钮能正常使用（实质上欺骗了浏览器）
                     
                     // 取得页面的url
-                    hashComponentArr = hashStr.match(/\#\/(generic)\/?/);
-                    hashComponent = hashComponentArr ? hashComponentArr[1] : 'main';
+                    hashComponentArr = hashStr.match(/\#\/(\w+)\/?/);
+                    hashComponent = hashComponentArr ? hashComponentArr[1] : 'index';
                     pageUrl = 'app/' + hashComponent + '.html';
 
                     // 根据hash值加载不同的页面
