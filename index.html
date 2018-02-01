@@ -11,7 +11,7 @@
             window.onload = function () {
                 //用jQuery获取模板
                 $('#sidebar').load('app/leftSide.html');
-                $('#main').load('app/index.html');
+                $('#main').load('app/main.html');
 
                 window.onhashchange = function() {
                     let currentHash = window.location.hash;
@@ -24,7 +24,9 @@
                     
                     // 取得页面的url
                     hashComponentArr = hashStr.match(/\#\/(\w+)\/?/);
-                    hashComponent = hashComponentArr ? hashComponentArr[1] : 'index';
+                    hashComponent = hashComponentArr ? hashComponentArr[1] : 'main';
+                    if(hashComponent === 'index')   // 首页加载 main 页面
+                        hashComponent = 'main';
                     pageUrl = 'app/' + hashComponent + '.html';
 
                     // 根据hash值加载不同的页面
