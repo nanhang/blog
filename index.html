@@ -4,54 +4,42 @@
 		<title>github blog page</title>
 		<meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-        <!-- 设置html页面缓存 -->
-        <!-- <meta http-equiv="Cache-control" content="no-cache">
-        <meta http-equiv="Cache" content="no-cache"> -->
         <link rel="icon" href="images/timo01.png" media="screen"/>
         <link rel="stylesheet" href="assets/css/main.css" />
+        <script src="assets/js/marked.min.js"></script>
         <script>
             window.onload = function () {
                 function loadPage() {
                     let currentHash = window.location.hash;
                     let hashComponentArr = [];
-                    let hashComponent = '';
-                    let pageUrl
+                    let hashComponentStr = '';
+                    let pageUrl;
 
                     hashStr = (!currentHash)? "#/index": currentHash; 
                     window.location.hash = hashStr; // 调整地址栏的地址，使得浏览器里边的“前进”、“后退”按钮能正常使用（实质上欺骗了浏览器）
-                    
-                    // 取得页面的url
-                    hashComponentArr = hashStr.match(/\#\/(\w+)\/?/);
-                    hashComponent = hashComponentArr ? hashComponentArr[1] : 'main';
-                    if(hashComponent === 'index')   // 首页加载 main 页面
-                        hashComponent = 'main';
-                    pageUrl = 'app/' + hashComponent + '.html';
-
+                    hashComponentArr = hashStr.match(/\#\/([\w-\/\b]+)\??/);
+                    hashComponentStr = hashComponentArr ? hashComponentArr[1] : 'index';
+                    if((/html/).test(hashComponentStr) || hashComponentStr === 'index') {       // html 处理语法
+                        pageUrl = 'app/' + hashComponentStr +'.html';
+                        $("#mainBox").load(pageUrl);
+                    } else {
+                        pageUrl = 'app/' + hashComponentStr +'.md';     // md处理语法
+                        $("<div></div>").load(pageUrl, function(data) {
+                        if(data) {
+                            let virtualDom = marked(data); // md 语法处理糖
+                            $("#mainBox").html(virtualDom);
+                        } else {
+                            $("#mainBox").load('app/layout/notFind.html');      // 默认的错误页面
+                        }
+                    });
+                    }
                     // 根据hash值加载不同的页面
-                    $('#main').load(pageUrl);
-                }
-                // 解析链接参数
-                function parseQueryString(currentUrl) {                      //解析链接参数
-                    let str = currentUrl.split("?")[1];                     //提取链接上的参数信息
-                    if(!str) {
-                        return {};
-                    };
-
-                    let iterms = str.split("&");                //拆分参数
-                    let arr,
-                        res = {};  
-                    for(let i = 0; i < iterms.length; i++) {  
-                        arr = iterms[i].split("=");  
-                        res[arr[0]] = arr[1];  
-                    }  
-                    return res;       //返还数值
                 }
                 //用jQuery获取模板
+                $('#header').load('app/layout/topNavbar.html');
                 $('#sidebar').load('app/leftSide.html');
                 loadPage();
                 window.onhashchange = loadPage;
-
-
             }
         </script>
 	</head>
@@ -60,7 +48,16 @@
 			<div id="wrapper">
 
 				<!-- Main -->
-					<div id="main"></div>
+					<div id="main">
+                        <div class="inner">
+                            <!-- Header -->
+                                <header id="header">
+                                </header>
+                            <!-- Content -->
+                                <section class="mainBox" id="mainBox">
+                                </section>
+                        </div>
+                    </div>
 
                 <!-- Sidebar -->
                     <div id="sidebar"></div>
@@ -70,6 +67,6 @@
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/skel.min.js"></script>
 			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+            <script src="assets/js/main.js"></script>
 	</body>
 </html>
